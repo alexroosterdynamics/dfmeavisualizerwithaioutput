@@ -1,0 +1,269 @@
+{
+  "meta": {
+    "version": "1.0",
+    "system": "Power Liftgate System",
+    "conformsTo": "Ford FMEA Handbook v4.2 (DFMEA) - structure aligned",
+    "notes": "Nodes/edges are semantically connected for deep traversal. Steps map to 1–6 as per DFMEA flow."
+  },
+  "nodes": [
+    { "id": "SYS-PLG", "type": "System", "label": "Power Liftgate System", "attrs": { "code": "PLG-SYS-001", "Owner": "DFMEA Core Team", "Step": "All" } },
+    { "id": "SYS-RWIP", "type": "System", "label": "Rear Wiper System", "attrs": { "code": "RWIP-SYS-001" } },
+
+    { "id": "SUB-CTRL", "type": "Subsystem", "label": "Liftgate Controller (ECU)", "attrs": { "code": "PLG-SS-CTRL" } },
+    { "id": "SUB-MOTOR", "type": "Subsystem", "label": "Motor & Drive", "attrs": { "code": "PLG-SS-MOTOR" } },
+    { "id": "SUB-LATCH", "type": "Subsystem", "label": "Latch & Striker", "attrs": { "code": "PLG-SS-LATCH" } },
+    { "id": "SUB-PINCH", "type": "Subsystem", "label": "Obstacle/Pinch Detection", "attrs": { "code": "PLG-SS-PINCH" } },
+    { "id": "SUB-POWER", "type": "Subsystem", "label": "Power Supply", "attrs": { "code": "PLG-SS-POWER" } },
+    { "id": "SUB-UI", "type": "Subsystem", "label": "User Interfaces", "attrs": { "code": "PLG-SS-UI" } },
+    { "id": "SUB-CAN", "type": "Subsystem", "label": "CAN Communication", "attrs": { "code": "PLG-SS-CAN" } },
+    { "id": "SUB-WIRE", "type": "Subsystem", "label": "Wiring Harness", "attrs": { "code": "PLG-SS-WIRE" } },
+    { "id": "SUB-STRUCT", "type": "Subsystem", "label": "Gate Structure & Struts", "attrs": { "code": "PLG-SS-STRUCT" } },
+
+    { "id": "IF-12V", "type": "Interface", "label": "Vehicle 12V Battery", "attrs": {"Boundary": "External"} },
+    { "id": "IF-BCM", "type": "Interface", "label": "Body Control Module (BCM)", "attrs": {"Boundary": "External"} },
+    { "id": "IF-ENV", "type": "Interface", "label": "Environment (Water/Dust/Temp)", "attrs": {"Boundary": "External"} },
+    { "id": "IF-USER", "type": "Interface", "label": "Vehicle Occupant/Operator", "attrs": {"Boundary": "External"} },
+    { "id": "IF-CARGO", "type": "Interface", "label": "Cargo/Obstructions", "attrs": {"Boundary": "External"} },
+    { "id": "IF-GLASS", "type": "Interface", "label": "Liftgate Glass", "attrs": {"Boundary": "External"} },
+
+    { "id": "COMP-DRV", "type": "Component", "label": "H-Bridge Driver", "attrs": { "code": "PLG-COMP-DRV" } },
+    { "id": "COMP-MTR", "type": "Component", "label": "DC Motor", "attrs": { "code": "PLG-COMP-MTR" } },
+    { "id": "COMP-ENC", "type": "Component", "label": "Motor Encoder", "attrs": { "code": "PLG-COMP-ENC" } },
+    { "id": "COMP-LAT", "type": "Component", "label": "Latch Mechanism", "attrs": { "code": "PLG-COMP-LAT" } },
+    { "id": "COMP-PINCH", "type": "Component", "label": "Pinch Sensor (Edge Strip)", "attrs": { "code": "PLG-COMP-PINCH" } },
+    { "id": "COMP-TORQ", "type": "Component", "label": "Torque/Current Sensing", "attrs": { "code": "PLG-COMP-TORQ" } },
+    { "id": "COMP-FUSE", "type": "Component", "label": "Fuse/FET Protection", "attrs": { "code": "PLG-COMP-FUSE" } },
+    { "id": "COMP-BTN", "type": "Component", "label": "Interior Button", "attrs": { "code": "PLG-COMP-BTN" } },
+    { "id": "COMP-KFOB", "type": "Component", "label": "Keyfob Remote", "attrs": { "code": "PLG-COMP-KFOB" } },
+    { "id": "COMP-CAN", "type": "Component", "label": "CAN Transceiver", "attrs": { "code": "PLG-COMP-CAN" } },
+    { "id": "COMP-HARNESS", "type": "Component", "label": "Harness & Connectors", "attrs": { "code": "PLG-COMP-HARNESS" } },
+    { "id": "COMP-STRUT", "type": "Component", "label": "Gas Struts", "attrs": { "code": "PLG-COMP-STRUT" } },
+
+    { "id": "FN-OPEN", "type": "Function", "label": "Open Liftgate on Command", "attrs": { "Step": "Step 1", "FunctionVerb": "Open" } },
+    { "id": "FN-CLOSE", "type": "Function", "label": "Close Liftgate on Command", "attrs": { "Step": "Step 1", "FunctionVerb": "Close" } },
+    { "id": "FN-STOPREV", "type": "Function", "label": "Stop/Reverse on Obstacle", "attrs": { "Step": "Step 1", "SpecialCharacteristic": "CC" } },
+    { "id": "FN-LATCH", "type": "Function", "label": "Secure Latching & Unlatching", "attrs": { "Step": "Step 1", "SpecialCharacteristic": "CC" } },
+    { "id": "FN-FORCE", "type": "Function", "label": "Limit Force & Speed", "attrs": { "Step": "Step 1", "SpecialCharacteristic": "HI" } },
+    { "id": "FN-STATUS", "type": "Function", "label": "Report Status via CAN", "attrs": { "Step": "Step 1" } },
+    { "id": "FN-COMPLY", "type": "Function", "label": "Comply with Pinch Regulations", "attrs": { "Step": "Step 1", "SpecialCharacteristic": "OS" } },
+
+    { "id": "FD-OPEN", "type": "Requirement", "label": "Open within 6–9 s", "attrs": { "Spec": "t_open=6–9s" } },
+    { "id": "FD-FORCE", "type": "Characteristic", "label": "Max Closing Force 90N", "attrs": { "SpecialCharacteristic": "CC", "Spec": "≤90N" } },
+    { "id": "FD-SPEED", "type": "Characteristic", "label": "Target Speed 0.3 m/s", "attrs": { "SpecialCharacteristic": "SC", "Spec": "0.3 m/s" } },
+
+    { "id": "FM-NOOPEN", "type": "FailureMode", "label": "Liftgate fails to open", "attrs": { "Step": "Step 1" } },
+    { "id": "FM-NOCLOSE", "type": "FailureMode", "label": "Liftgate fails to close", "attrs": { "Step": "Step 1" } },
+    { "id": "FM-UNINT", "type": "FailureMode", "label": "Unexpected motion", "attrs": { "Step": "Step 1" } },
+    { "id": "FM-PINCH", "type": "FailureMode", "label": "Pinch detection fails", "attrs": { "Step": "Step 1" } },
+    { "id": "FM-EXFORCE", "type": "FailureMode", "label": "Force exceeds limit", "attrs": { "Step": "Step 1" } },
+    { "id": "FM-UNLATCH", "type": "FailureMode", "label": "Door unlatches while driving", "attrs": { "Step": "Step 1" } },
+    { "id": "FM-FALSEOBS", "type": "FailureMode", "label": "False obstacle detection", "attrs": { "Step": "Step 1" } },
+
+    { "id": "EF-SAFETY", "type": "Effect", "label": "Injury to occupant", "attrs": { "S": 10, "Classification": "Safety", "Step": "Step 1" } },
+    { "id": "EF-DAMAGE", "type": "Effect", "label": "Vehicle damage", "attrs": { "S": 7, "Classification": "Damage", "Step": "Step 1" } },
+    { "id": "EF-NONCOMP", "type": "Effect", "label": "Non-compliance to regulation", "attrs": { "S": 10, "Classification": "Regulatory", "Step": "Step 1" } },
+    { "id": "EF-USABILITY", "type": "Effect", "label": "Customer dissatisfaction", "attrs": { "S": 5, "Classification": "Usability", "Step": "Step 1" } },
+
+    { "id": "CS-DRVSHORT", "type": "Cause", "label": "H-Bridge shorted high", "attrs": { "O": 3, "Step": "Step 2" } },
+    { "id": "CS-ENCLOSE", "type": "Cause", "label": "Encoder signal loss", "attrs": { "O": 4, "Step": "Step 2" } },
+    { "id": "CS-SWBUG", "type": "Cause", "label": "State-machine bug", "attrs": { "O": 3, "Step": "Step 2" } },
+    { "id": "CS-WATER", "type": "Cause", "label": "Water ingress in connector", "attrs": { "O": 5, "Step": "Step 2" } },
+    { "id": "CS-MISALGN", "type": "Cause", "label": "Pinch strip misaligned", "attrs": { "O": 4, "Step": "Step 2", "Characteristic": "SC" } },
+    { "id": "CS-CALDRIFT", "type": "Cause", "label": "Force calibration drift", "attrs": { "O": 4, "Step": "Step 2" } },
+    { "id": "CS-LATCHWEAR", "type": "Cause", "label": "Latch wear reduces retention", "attrs": { "O": 2, "Step": "Step 2" } },
+    { "id": "CS-HAROPEN", "type": "Cause", "label": "Harness open circuit", "attrs": { "O": 3, "Step": "Step 2" } },
+    { "id": "CS-NOISECAN", "type": "Cause", "label": "CAN noise causing false cmd", "attrs": { "O": 2, "Step": "Step 2" } },
+
+    { "id": "CT-DESMARG", "type": "Control", "label": "Design margin on torque limit", "attrs": { "Type": "Prevention", "Step": "Step 3" } },
+    { "id": "CT-COATING", "type": "Control", "label": "Conformal coating ECU", "attrs": { "Type": "Prevention", "Step": "Step 3" } },
+    { "id": "CT-SEALS", "type": "Control", "label": "Sealed connectors IP67", "attrs": { "Type": "Prevention", "Step": "Step 3" } },
+    { "id": "CT-SWPLAUS", "type": "Control", "label": "SW plausibility checks", "attrs": { "Type": "Prevention", "Step": "Step 3" } },
+    { "id": "CT-EOL", "type": "Control", "label": "EOL motor/torque test", "attrs": { "Type": "Detection", "Step": "Step 3" } },
+    { "id": "CT-DIAG", "type": "Control", "label": "On-board diagnostics DTCs", "attrs": { "Type": "Detection", "Step": "Step 3" } },
+    { "id": "CT-PINCHVAL", "type": "Control", "label": "Pinch validation test", "attrs": { "Type": "Detection", "Step": "Step 3" } },
+
+    { "id": "AC-TUNE", "type": "Action", "label": "Retune force limit via DOE", "attrs": { "Owner": "ME - J. Park", "Due": "2025-11-15", "Status": "Planned" } },
+    { "id": "AC-SEALUP", "type": "Action", "label": "Upgrade connector sealing", "attrs": { "Owner": "DE - S. Liu", "Due": "2025-10-30", "Status": "Open" } },
+    { "id": "AC-SWFIX", "type": "Action", "label": "Fix state-machine bug", "attrs": { "Owner": "SW - R. Khan", "Due": "2025-09-20", "Status": "Done" } },
+    { "id": "AC-REDUND", "type": "Action", "label": "Add redundant pinch sensing", "attrs": { "Owner": "Systems - A. Green", "Due": "2025-12-10", "Status": "Planned" } },
+
+    { "id": "RK-PINCH", "type": "Risk", "label": "Pinch risk index", "attrs": { "S": 10, "O": 4, "D": 5, "RPN": 200 } },
+    { "id": "RK-LATCH", "type": "Risk", "label": "Latch retention risk", "attrs": { "S": 10, "O": 2, "D": 5, "RPN": 100 } },
+    { "id": "RK-FORCE", "type": "Risk", "label": "Force exceedance risk", "attrs": { "S": 9, "O": 4, "D": 6, "RPN": 216 } },
+
+    { "id": "TL-BOUND", "type": "Tool", "label": "Boundary Diagram", "attrs": { "Step": "Step 1" } },
+    { "id": "TL-FNTREE", "type": "Tool", "label": "Function Tree", "attrs": { "Step": "Step 1" } },
+    { "id": "TL-FNDESC", "type": "Tool", "label": "Function Descriptions", "attrs": { "Step": "Step 1" } },
+    { "id": "TL-PDIAG", "type": "Tool", "label": "Robustness P-Diagram", "attrs": { "Step": "Step 1" } },
+    { "id": "TL-CHARMAT", "type": "Tool", "label": "Characteristic Matrix", "attrs": { "Step": "Step 2" } },
+    { "id": "TL-BRAIN", "type": "Tool", "label": "Brainstorming", "attrs": { "Step": "All" } },
+    { "id": "TL-FTA", "type": "Tool", "label": "FTA", "attrs": { "Step": "Step 2" } },
+    { "id": "TL-FISH", "type": "Tool", "label": "Fishbone", "attrs": { "Step": "Step 2" } },
+    { "id": "TL-5WHY", "type": "Tool", "label": "5 Whys", "attrs": { "Step": "Step 2" } },
+    { "id": "TL-DOE", "type": "Tool", "label": "DOE", "attrs": { "Step": "Step 2–4" } },
+    { "id": "TL-QFD", "type": "Tool", "label": "QFD", "attrs": { "Step": "Step 2–4" } },
+    { "id": "TL-CP", "type": "Tool", "label": "Control Plan", "attrs": { "Step": "Step 4–6" } },
+    { "id": "TL-DCP", "type": "Tool", "label": "Dynamic Control Plan (DCP)", "attrs": { "Step": "Step 4–6" } },
+
+    { "id": "TEST-PINCH", "type": "Test", "label": "Pinch force compliance test", "attrs": { "Standard": "FMVSS 118", "Step": "Step 4–6" } },
+    { "id": "TEST-LATCH", "type": "Test", "label": "Latch retention pull test", "attrs": { "Standard": "OEM Spec", "Step": "Step 4–6" } },
+
+    { "id": "STEP-1", "type": "Step", "label": "Step 1", "attrs": { "Desc": "Functions, Failure Modes, Effects, Severity" } },
+    { "id": "STEP-2", "type": "Step", "label": "Step 2", "attrs": { "Desc": "Causes, Occurrence, Characteristics" } },
+    { "id": "STEP-3", "type": "Step", "label": "Step 3", "attrs": { "Desc": "Controls, Detection, Initial RPN" } },
+    { "id": "STEP-4", "type": "Step", "label": "Step 4", "attrs": { "Desc": "Recommended Actions" } },
+    { "id": "STEP-5", "type": "Step", "label": "Step 5", "attrs": { "Desc": "Action Results, Updated Ratings" } },
+    { "id": "STEP-6", "type": "Step", "label": "Step 6", "attrs": { "Desc": "Follow-up & Closure" } }
+  ],
+  "edges": [
+    { "id": "E-1", "type": "CONTAINS", "from": "SYS-PLG", "to": "SUB-CTRL", "step": "Step 1" },
+    { "id": "E-2", "type": "CONTAINS", "from": "SYS-PLG", "to": "SUB-MOTOR", "step": "Step 1" },
+    { "id": "E-3", "type": "CONTAINS", "from": "SYS-PLG", "to": "SUB-LATCH", "step": "Step 1" },
+    { "id": "E-4", "type": "CONTAINS", "from": "SYS-PLG", "to": "SUB-PINCH", "step": "Step 1" },
+    { "id": "E-5", "type": "CONTAINS", "from": "SYS-PLG", "to": "SUB-POWER", "step": "Step 1" },
+    { "id": "E-6", "type": "CONTAINS", "from": "SYS-PLG", "to": "SUB-UI", "step": "Step 1" },
+    { "id": "E-7", "type": "CONTAINS", "from": "SYS-PLG", "to": "SUB-CAN", "step": "Step 1" },
+    { "id": "E-8", "type": "CONTAINS", "from": "SYS-PLG", "to": "SUB-WIRE", "step": "Step 1" },
+    { "id": "E-9", "type": "CONTAINS", "from": "SYS-PLG", "to": "SUB-STRUCT", "step": "Step 1" },
+
+    { "id": "E-10", "type": "INTERFACE_WITH", "from": "SUB-POWER", "to": "IF-12V", "step": "Step 1" },
+    { "id": "E-11", "type": "INTERFACE_WITH", "from": "SUB-CAN", "to": "IF-BCM", "step": "Step 1" },
+    { "id": "E-12", "type": "INTERFACE_WITH", "from": "SYS-PLG", "to": "IF-ENV", "step": "Step 1" },
+    { "id": "E-13", "type": "INTERFACE_WITH", "from": "SUB-UI", "to": "IF-USER", "step": "Step 1" },
+    { "id": "E-14", "type": "INTERFACE_WITH", "from": "SYS-PLG", "to": "IF-CARGO", "step": "Step 1" },
+    { "id": "E-15", "type": "INTERFACE_WITH", "from": "SYS-PLG", "to": "IF-GLASS", "step": "Step 1" },
+
+    { "id": "E-16", "type": "HAS_FUNCTION", "from": "SYS-PLG", "to": "FN-OPEN", "step": "Step 1" },
+    { "id": "E-17", "type": "HAS_FUNCTION", "from": "SYS-PLG", "to": "FN-CLOSE", "step": "Step 1" },
+    { "id": "E-18", "type": "HAS_FUNCTION", "from": "SYS-PLG", "to": "FN-STOPREV", "step": "Step 1" },
+    { "id": "E-19", "type": "HAS_FUNCTION", "from": "SYS-PLG", "to": "FN-LATCH", "step": "Step 1" },
+    { "id": "E-20", "type": "HAS_FUNCTION", "from": "SYS-PLG", "to": "FN-FORCE", "step": "Step 1" },
+    { "id": "E-21", "type": "HAS_FUNCTION", "from": "SYS-PLG", "to": "FN-STATUS", "step": "Step 1" },
+    { "id": "E-22", "type": "HAS_FUNCTION", "from": "SYS-PLG", "to": "FN-COMPLY", "step": "Step 1" },
+
+    { "id": "E-23", "type": "CRITICAL_TO", "from": "FN-FORCE", "to": "FD-FORCE", "step": "Step 2" },
+    { "id": "E-24", "type": "CRITICAL_TO", "from": "FN-OPEN", "to": "FD-OPEN", "step": "Step 2" },
+    { "id": "E-25", "type": "CRITICAL_TO", "from": "FN-OPEN", "to": "FD-SPEED", "step": "Step 2" },
+    { "id": "E-26", "type": "CRITICAL_TO", "from": "FN-STOPREV", "to": "FD-FORCE", "step": "Step 2" },
+
+    { "id": "E-27", "type": "HAS_FAILURE_MODE", "from": "FN-OPEN", "to": "FM-NOOPEN", "step": "Step 1" },
+    { "id": "E-28", "type": "HAS_FAILURE_MODE", "from": "FN-CLOSE", "to": "FM-NOCLOSE", "step": "Step 1" },
+    { "id": "E-29", "type": "HAS_FAILURE_MODE", "from": "FN-STOPREV", "to": "FM-PINCH", "step": "Step 1" },
+    { "id": "E-30", "type": "HAS_FAILURE_MODE", "from": "FN-FORCE", "to": "FM-EXFORCE", "step": "Step 1" },
+    { "id": "E-31", "type": "HAS_FAILURE_MODE", "from": "FN-LATCH", "to": "FM-UNLATCH", "step": "Step 1" },
+    { "id": "E-32", "type": "HAS_FAILURE_MODE", "from": "FN-STATUS", "to": "FM-UNINT", "step": "Step 1" },
+    { "id": "E-33", "type": "HAS_FAILURE_MODE", "from": "FN-STOPREV", "to": "FM-FALSEOBS", "step": "Step 1" },
+
+    { "id": "E-34", "type": "LEADS_TO_EFFECT", "from": "FM-PINCH", "to": "EF-SAFETY", "step": "Step 1" },
+    { "id": "E-35", "type": "LEADS_TO_EFFECT", "from": "FM-UNLATCH", "to": "EF-SAFETY", "step": "Step 1" },
+    { "id": "E-36", "type": "LEADS_TO_EFFECT", "from": "FM-EXFORCE", "to": "EF-NONCOMP", "step": "Step 1" },
+    { "id": "E-37", "type": "LEADS_TO_EFFECT", "from": "FM-UNINT", "to": "EF-DAMAGE", "step": "Step 1" },
+    { "id": "E-38", "type": "LEADS_TO_EFFECT", "from": "FM-NOCLOSE", "to": "EF-USABILITY", "step": "Step 1" },
+
+    { "id": "E-39", "type": "CAUSED_BY", "from": "FM-NOOPEN", "to": "CS-DRVSHORT", "step": "Step 2" },
+    { "id": "E-40", "type": "CAUSED_BY", "from": "FM-NOOPEN", "to": "CS-HAROPEN", "step": "Step 2" },
+    { "id": "E-41", "type": "CAUSED_BY", "from": "FM-NOCLOSE", "to": "CS-ENCLOSE", "step": "Step 2" },
+    { "id": "E-42", "type": "CAUSED_BY", "from": "FM-UNINT", "to": "CS-SWBUG", "step": "Step 2" },
+    { "id": "E-43", "type": "CAUSED_BY", "from": "FM-PINCH", "to": "CS-MISALGN", "step": "Step 2" },
+    { "id": "E-44", "type": "CAUSED_BY", "from": "FM-EXFORCE", "to": "CS-CALDRIFT", "step": "Step 2" },
+    { "id": "E-45", "type": "CAUSED_BY", "from": "FM-UNLATCH", "to": "CS-LATCHWEAR", "step": "Step 2" },
+    { "id": "E-46", "type": "CAUSED_BY", "from": "FM-UNINT", "to": "CS-NOISECAN", "step": "Step 2" },
+
+    { "id": "E-47", "type": "MITIGATED_BY", "from": "CS-CALDRIFT", "to": "CT-DESMARG", "step": "Step 3" },
+    { "id": "E-48", "type": "MITIGATED_BY", "from": "CS-WATER", "to": "CT-COATING", "step": "Step 3" },
+    { "id": "E-49", "type": "MITIGATED_BY", "from": "CS-WATER", "to": "CT-SEALS", "step": "Step 3" },
+    { "id": "E-50", "type": "MITIGATED_BY", "from": "CS-SWBUG", "to": "CT-SWPLAUS", "step": "Step 3" },
+
+    { "id": "E-51", "type": "DETECTED_BY", "from": "CS-DRVSHORT", "to": "CT-EOL", "step": "Step 3" },
+    { "id": "E-52", "type": "DETECTED_BY", "from": "CS-ENCLOSE", "to": "CT-EOL", "step": "Step 3" },
+    { "id": "E-53", "type": "DETECTED_BY", "from": "CS-MISALGN", "to": "CT-PINCHVAL", "step": "Step 3" },
+    { "id": "E-54", "type": "DETECTED_BY", "from": "CS-NOISECAN", "to": "CT-DIAG", "step": "Step 3" },
+
+    { "id": "E-55", "type": "RECOMMENDED_ACTION", "from": "RK-FORCE", "to": "AC-TUNE", "step": "Step 4" },
+    { "id": "E-56", "type": "RECOMMENDED_ACTION", "from": "RK-PINCH", "to": "AC-REDUND", "step": "Step 4" },
+    { "id": "E-57", "type": "RECOMMENDED_ACTION", "from": "RK-LATCH", "to": "AC-SEALUP", "step": "Step 4" },
+    { "id": "E-58", "type": "RECOMMENDED_ACTION", "from": "CS-SWBUG", "to": "AC-SWFIX", "step": "Step 4" },
+
+    { "id": "E-59", "type": "VALIDATED_BY", "from": "FN-STOPREV", "to": "TEST-PINCH", "step": "Step 4–6" },
+    { "id": "E-60", "type": "VALIDATED_BY", "from": "FN-LATCH", "to": "TEST-LATCH", "step": "Step 4–6" },
+
+    { "id": "E-61", "type": "MAPPED_BY", "from": "FD-FORCE", "to": "TL-QFD", "step": "Step 2–4" },
+    { "id": "E-62", "type": "TUNED_BY", "from": "FN-FORCE", "to": "TL-DOE", "step": "Step 2–4" },
+
+    { "id": "E-63", "type": "ANALYZED_BY", "from": "FM-PINCH", "to": "TL-FTA", "step": "Step 2" },
+    { "id": "E-64", "type": "ANALYZED_BY", "from": "FM-PINCH", "to": "TL-FISH", "step": "Step 2" },
+    { "id": "E-65", "type": "ANALYZED_BY", "from": "FM-PINCH", "to": "TL-5WHY", "step": "Step 2" },
+
+    { "id": "E-66", "type": "ANALYZED_BY", "from": "SYS-PLG", "to": "TL-BOUND", "step": "Step 1" },
+    { "id": "E-67", "type": "ANALYZED_BY", "from": "SYS-PLG", "to": "TL-FNTREE", "step": "Step 1" },
+    { "id": "E-68", "type": "ANALYZED_BY", "from": "SYS-PLG", "to": "TL-FNDESC", "step": "Step 1" },
+    { "id": "E-69", "type": "ANALYZED_BY", "from": "SYS-PLG", "to": "TL-PDIAG", "step": "Step 1" },
+    { "id": "E-70", "type": "ANALYZED_BY", "from": "SYS-PLG", "to": "TL-CHARMAT", "step": "Step 2" },
+    { "id": "E-71", "type": "ANALYZED_BY", "from": "SYS-PLG", "to": "TL-BRAIN", "step": "All" },
+    { "id": "E-72", "type": "VALIDATED_BY", "from": "SYS-PLG", "to": "TL-CP", "step": "Step 4–6" },
+    { "id": "E-73", "type": "VALIDATED_BY", "from": "SYS-PLG", "to": "TL-DCP", "step": "Step 4–6" },
+
+    { "id": "E-74", "type": "INPUT_TO", "from": "IF-USER", "to": "SUB-UI", "step": "Step 1" },
+    { "id": "E-75", "type": "OUTPUT_TO", "from": "SUB-UI", "to": "SUB-CTRL", "step": "Step 1" },
+    { "id": "E-76", "type": "OUTPUT_TO", "from": "SUB-CTRL", "to": "SUB-MOTOR", "step": "Step 1" },
+    { "id": "E-77", "type": "OUTPUT_TO", "from": "SUB-CTRL", "to": "SUB-LATCH", "step": "Step 1" },
+    { "id": "E-78", "type": "INPUT_TO", "from": "SUB-MOTOR", "to": "SUB-CTRL", "step": "Step 1" },
+
+    { "id": "E-79", "type": "CONTROL", "from": "TL-PDIAG", "to": "SUB-CTRL", "step": "Step 1", "attrs": {"Role":"Control"} },
+    { "id": "E-80", "type": "NOISE", "from": "TL-PDIAG", "to": "IF-ENV", "step": "Step 1", "attrs": {"Role":"Noise"} },
+    { "id": "E-81", "type": "ERROR_STATE", "from": "TL-PDIAG", "to": "FM-UNINT", "step": "Step 1", "attrs": {"Role":"Error"} },
+
+    { "id": "E-82", "type": "RECOMMENDED_ACTION", "from": "CS-MISALGN", "to": "AC-REDUND", "step": "Step 4" },
+    { "id": "E-83", "type": "RECOMMENDED_ACTION", "from": "CS-CALDRIFT", "to": "AC-TUNE", "step": "Step 4" },
+
+    { "id": "E-84", "type": "INTERFACE_WITH", "from": "SYS-PLG", "to": "SYS-RWIP", "step": "Step 1", "attrs": {"crossSystem": true} },
+    { "id": "E-85", "type": "CONTROL", "from": "SYS-PLG", "to": "SYS-RWIP", "step": "Step 1", "attrs": {"crossSystem": true, "Desc": "Disable rear wiper when liftgate open"} },
+
+    { "id": "E-86", "type": "DETECTED_BY", "from": "CS-LATCHWEAR", "to": "CT-DIAG", "step": "Step 3" },
+    { "id": "E-87", "type": "DETECTED_BY", "from": "CS-CALDRIFT", "to": "CT-EOL", "step": "Step 3" },
+
+    { "id": "E-88", "type": "RECOMMENDED_ACTION", "from": "RK-PINCH", "to": "AC-SEALUP", "step": "Step 4" },
+
+    { "id": "E-89", "type": "HAS_FUNCTION", "from": "SUB-CTRL", "to": "FN-STATUS", "step": "Step 1" },
+    { "id": "E-90", "type": "HAS_FUNCTION", "from": "SUB-PINCH", "to": "FN-STOPREV", "step": "Step 1" },
+    { "id": "E-91", "type": "HAS_FUNCTION", "from": "SUB-LATCH", "to": "FN-LATCH", "step": "Step 1" },
+    { "id": "E-92", "type": "HAS_FUNCTION", "from": "SUB-MOTOR", "to": "FN-FORCE", "step": "Step 1" },
+
+    { "id": "E-93", "type": "DETECTED_BY", "from": "CS-NOISECAN", "to": "CT-EOL", "step": "Step 3" },
+
+    { "id": "E-94", "type": "RECOMMENDED_ACTION", "from": "FM-UNINT", "to": "AC-SWFIX", "step": "Step 4" },
+
+    { "id": "E-95", "type": "MAPPED_BY", "from": "FN-OPEN", "to": "TL-FNTREE", "step": "Step 1" },
+    { "id": "E-96", "type": "MAPPED_BY", "from": "FN-CLOSE", "to": "TL-FNTREE", "step": "Step 1" },
+    { "id": "E-97", "type": "MAPPED_BY", "from": "FN-STOPREV", "to": "TL-FNTREE", "step": "Step 1" },
+    { "id": "E-98", "type": "MAPPED_BY", "from": "FN-LATCH", "to": "TL-FNTREE", "step": "Step 1" },
+    { "id": "E-99", "type": "MAPPED_BY", "from": "FN-FORCE", "to": "TL-FNTREE", "step": "Step 1" },
+    { "id": "E-100", "type": "MAPPED_BY", "from": "FN-STATUS", "to": "TL-FNTREE", "step": "Step 1" },
+    { "id": "E-101", "type": "MAPPED_BY", "from": "FN-COMPLY", "to": "TL-FNTREE", "step": "Step 1" },
+
+    { "id": "E-102", "type": "RECOMMENDED_ACTION", "from": "FM-PINCH", "to": "AC-REDUND", "step": "Step 4" },
+    { "id": "E-103", "type": "RECOMMENDED_ACTION", "from": "FM-EXFORCE", "to": "AC-TUNE", "step": "Step 4" },
+
+    { "id": "E-104", "type": "VALIDATED_BY", "from": "AC-TUNE", "to": "TL-DOE", "step": "Step 5" },
+    { "id": "E-105", "type": "VALIDATED_BY", "from": "AC-SEALUP", "to": "TL-CP", "step": "Step 5" },
+    { "id": "E-106", "type": "VALIDATED_BY", "from": "AC-SWFIX", "to": "TL-DCP", "step": "Step 5" },
+
+    { "id": "E-107", "type": "CONTROL", "from": "FD-FORCE", "to": "CT-DESMARG", "step": "Step 3" },
+    { "id": "E-108", "type": "DETECTED_BY", "from": "FD-FORCE", "to": "CT-PINCHVAL", "step": "Step 3" },
+
+    { "id": "E-109", "type": "RECOMMENDED_ACTION", "from": "FD-FORCE", "to": "AC-TUNE", "step": "Step 4" },
+
+    { "id": "E-110", "type": "DETECTED_BY", "from": "FM-UNLATCH", "to": "CT-DIAG", "step": "Step 3" },
+
+    { "id": "E-111", "type": "CRITICAL_TO", "from": "FN-LATCH", "to": "FD-FORCE", "step": "Step 2" },
+
+    { "id": "E-112", "type": "DETECTED_BY", "from": "FM-PINCH", "to": "CT-PINCHVAL", "step": "Step 3" },
+
+    { "id": "E-113", "type": "RECOMMENDED_ACTION", "from": "RK-PINCH", "to": "AC-SWFIX", "step": "Step 4" },
+
+    { "id": "E-114", "type": "CRITICAL_TO", "from": "FN-COMPLY", "to": "FD-FORCE", "step": "Step 2" },
+
+    { "id": "E-115", "type": "OUTPUT_TO", "from": "SUB-CAN", "to": "IF-BCM", "step": "Step 1" },
+    { "id": "E-116", "type": "INPUT_TO", "from": "IF-BCM", "to": "SUB-CTRL", "step": "Step 1" }
+  ]
+}
